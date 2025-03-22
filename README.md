@@ -28,31 +28,31 @@ cd pqc-dilithium-demo
 
 1. **Build the Docker image**  
    ```bash
-   docker build -t pqc-dilithium-demo .
+  sudo docker build -t pqc-dilithium-demo .
    ```
 
 2. **Create a message to sign**  
    ```bash
-   echo "Quantum is the future." > message.txt
+   sudo echo "Quantum is the future." > message.txt
    ```
 
 3. **Sign the message**  
    ```bash
-   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo \
      python3 cli_dilithium.py sign --in message.txt --out message.sig
    ```
 
 4. **Verify the message**  
    ```bash
-   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo \
      python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
    ```
 
 5. **(Optional) Tamper and test verification failure**  
    ```bash
-   echo "I changed the message!" > message.txt
+   echo "I changed the message" > message.txt
 
-   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo \
      python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
    ```
 
