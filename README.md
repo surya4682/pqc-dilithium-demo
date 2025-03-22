@@ -6,10 +6,11 @@ A simple, working demo of post-quantum digital signatures using [**Dilithium2**]
 
 ## 🚀 What This Project Does
 
-- 🛡️ Generates a quantum-safe Dilithium2 keypair  
-- ✍️ Signs a message using the private key  
+- 🛡 Generates a quantum-safe Dilithium2 keypair  
+- ✍ Signs a message using the private key  
 - ✅ Verifies the message using the public key  
 - ❌ Detects tampered messages  
+- 💾 Exports the public key to `public_key.bin`
 
 ---
 
@@ -24,10 +25,10 @@ docker build -t pqc-dilithium-demo .
 2. **Run the demo**
 
 ```bash
-docker run --rm pqc-dilithium-demo
+docker run --rm -v "$PWD":/app pqc-dilithium-demo
 ```
 
-> ℹ️ If you're using Docker with **WSL on Windows**, make sure Docker Desktop is running.
+> ℹ On Windows with WSL, make sure Docker Desktop is running.
 
 ---
 
@@ -37,6 +38,8 @@ docker run --rm pqc-dilithium-demo
 ✔ Signature valid? True  
 ❌ Tampered message valid? False
 ```
+
+A file called `public_key.bin` will also be created in your current directory.
 
 ---
 
@@ -56,6 +59,7 @@ docker run --rm pqc-dilithium-demo
 | `dilithium_demo.py` | Main script with signing + verification logic |
 | `Dockerfile`      | Builds the container with all dependencies   |
 | `README.md`       | You’re reading it                            |
+| `public_key.bin`  | Exported public key from the signature demo  |
 
 ---
 
@@ -66,14 +70,6 @@ I was learning about post-quantum cryptography and wanted a real working example
 - 🔧 Clean  
 - 💡 Easy to understand  
 - 🧪 Demo-ready in seconds
-
----
-
-## 📌 Coming Soon
-
-- ✅ File signing/verification  
-- 🗝️ Export/import public keys  
-- 🧰 CLI tool (sign + verify commands)
 
 ---
 
