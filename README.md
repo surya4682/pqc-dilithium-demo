@@ -2,8 +2,6 @@
 
 A simple, working demo of post-quantum digital signatures using [Dilithium2](https://csrc.nist.gov/Projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org/) project. Built with Python and Docker.
 
-> Created by Surya — so you don’t have to go through the painful setup I did. This one **just works**.
-
 ---
 
 ## 🚀 What This Project Does
@@ -68,21 +66,6 @@ So I made this:
 - 💡 Easy to understand
 - 🧪 Demo-ready in seconds
 
-Now you don’t have to waste time — you can just run it and learn.
-
----
-
-## ⚠️ Troubleshooting
-
-If you get Docker permission issues on Linux, try:
-
-```bash
-sudo usermod -aG docker $USER
-newgrp docker
-```
-
-Then log out and log back in.
-
 ---
 
 ## 📌 Coming Soon
@@ -107,4 +90,4 @@ MIT License. Use, fork, or build on top of it.
 
 ---
 
-Built with love (and frustration) by Surya 🔐💻
+Built by Surya 🔐💻
