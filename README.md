@@ -1,38 +1,40 @@
 # 🔐 PQC Dilithium Signature Demo
 
-A simple, working demo of post-quantum digital signatures using [Dilithium2](https://csrc.nist.gov/Projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org/) project. Built with Python and Docker.
+A simple, working demo of post-quantum digital signatures using [**Dilithium2**](https://csrc.nist.gov/projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org) project. Built with Python and Docker.
 
 ---
 
 ## 🚀 What This Project Does
 
-- 🛡️ Generates a quantum-safe Dilithium2 keypair
-- ✍️ Signs a message using the private key
-- ✅ Verifies the message using the public key
-- ❌ Detects tampered messages
+- 🛡️ Generates a quantum-safe Dilithium2 keypair  
+- ✍️ Signs a message using the private key  
+- ✅ Verifies the message using the public key  
+- ❌ Detects tampered messages  
 
 ---
 
 ## 🐳 How to Run (in 2 Steps)
 
-### 1. Build the Docker image
+1. **Build the Docker image**
 
 ```bash
-docker build -t pqc-dilithium .
+docker build -t pqc-dilithium-demo .
 ```
 
-### 2. Run the demo
+2. **Run the demo**
 
 ```bash
-docker run --rm pqc-dilithium
+docker run --rm pqc-dilithium-demo
 ```
+
+> ℹ️ If you're using Docker with **WSL on Windows**, make sure Docker Desktop is running.
 
 ---
 
 ## 💡 Expected Output
 
-```bash
-✔ Signature valid? True
+```
+✔ Signature valid? True  
 ❌ Tampered message valid? False
 ```
 
@@ -49,38 +51,37 @@ docker run --rm pqc-dilithium
 
 ## 📁 Files
 
-| File               | Description                                  |
-|--------------------|----------------------------------------------|
-| `dilithium_demo.py`| Main script with signing + verification logic|
-| `Dockerfile`       | Builds the container with all dependencies   |
-| `README.md`        | You’re reading it                            |
+| File              | Description                                  |
+|-------------------|----------------------------------------------|
+| `dilithium_demo.py` | Main script with signing + verification logic |
+| `Dockerfile`      | Builds the container with all dependencies   |
+| `README.md`       | You’re reading it                            |
 
 ---
 
 ## 🧠 Why I Made This
 
-I was learning about post-quantum cryptography and wanted a **real working example** — but found the setup hard, buggy, and confusing.
+I was learning about post-quantum cryptography and wanted a real working example — but found the setup hard, buggy, and confusing. So I made this:
 
-So I made this:
-- 🔧 Clean
-- 💡 Easy to understand
+- 🔧 Clean  
+- 💡 Easy to understand  
 - 🧪 Demo-ready in seconds
 
 ---
 
 ## 📌 Coming Soon
 
-- ✅ File signing/verification
-- 🗝️ Export/import public keys
+- ✅ File signing/verification  
+- 🗝️ Export/import public keys  
 - 🧰 CLI tool (sign + verify commands)
 
 ---
 
 ## 🙌 Credits
 
-- [Open Quantum Safe](https://github.com/open-quantum-safe)
-- [liboqs](https://github.com/open-quantum-safe/liboqs)
-- [liboqs-python](https://github.com/open-quantum-safe/liboqs-python)
+- Open Quantum Safe  
+- liboqs  
+- liboqs-python
 
 ---
 
@@ -90,4 +91,4 @@ MIT License. Use, fork, or build on top of it.
 
 ---
 
-Built by Surya 🔐💻
+Built by **Surya** 🔐💻
