@@ -1,65 +1,99 @@
-# 🔐 PQC Dilithium Signature Demo
+# 🔐 PQC Dilithium CLI Tool
 
-A simple, working demo of post-quantum digital signatures using [**Dilithium2**](https://csrc.nist.gov/projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org) project. Built with Python and Docker.
+A simple, working CLI demo of post-quantum digital signatures using [**Dilithium2**](https://csrc.nist.gov/projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org) project. Built with Python and Docker.
 
 ---
 
 ## 🚀 What This Project Does
 
 - 🛡 Generates a quantum-safe Dilithium2 keypair  
-- ✍ Signs a message using the private key  
-- ✅ Verifies the message using the public key  
-- ❌ Detects tampered messages  
-- 💾 Exports the public key to `public_key.bin`
+- ✍ Signs any file using the private key  
+- ✅ Verifies a file using the public key  
+- ❌ Detects tampered files  
+- 💾 Exports public + private key to `./keys/`  
+- 🧰 CLI-based signing & verification — no extra UI
 
 ---
 
-## 🐳 How to Run (in 2 Steps)
-
-1. **Build the Docker image**
+## 🧩 Clone the Repo & CD Into It
 
 ```bash
-docker build -t pqc-dilithium-demo .
+git clone https://github.com/surya4682/pqc-dilithium-demo.git
+cd pqc-dilithium-demo
 ```
 
-2. **Run the demo**
+---
 
-```bash
-docker run --rm -v "$PWD":/app pqc-dilithium-demo
-```
+## 🐳 How to Run (in 5 Steps)
 
-> ℹ On Windows with WSL, make sure Docker Desktop is running.
+1. **Build the Docker image**  
+   ```bash
+   docker build -t pqc-dilithium-demo .
+   ```
+
+2. **Create a message to sign**  
+   ```bash
+   echo "Quantum is the future." > message.txt
+   ```
+
+3. **Sign the message**  
+   ```bash
+   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+     python3 cli_dilithium.py sign --in message.txt --out message.sig
+   ```
+
+4. **Verify the message**  
+   ```bash
+   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+     python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
+   ```
+
+5. **(Optional) Tamper and test verification failure**  
+   ```bash
+   echo "I changed the message!" > message.txt
+
+   docker run --rm -v "$PWD":/app pqc-dilithium-demo \
+     python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
+   ```
+
+> ℹ On **Windows with WSL**, make sure **Docker Desktop** is running.
 
 ---
 
 ## 💡 Expected Output
 
 ```
-✔ Signature valid? True  
-❌ Tampered message valid? False
+🔐 Keypair generated
+✍️ Message signed: message.sig
+✅ Signature valid?
 ```
 
-A file called `public_key.bin` will also be created in your current directory.
+If the message is tampered:
+```
+❌ Invalid signature
+```
 
 ---
 
 ## 📦 Tech Stack
 
-- Python 3.10 (inside Docker)
-- [liboqs](https://github.com/open-quantum-safe/liboqs)
-- [liboqs-python](https://github.com/open-quantum-safe/liboqs-python)
+- Python 3.10 (inside Docker)  
+- [liboqs](https://github.com/open-quantum-safe/liboqs)  
+- [liboqs-python](https://github.com/open-quantum-safe/liboqs-python)  
 - Docker
 
 ---
 
 ## 📁 Files
 
-| File              | Description                                  |
-|-------------------|----------------------------------------------|
-| `dilithium_demo.py` | Main script with signing + verification logic |
-| `Dockerfile`      | Builds the container with all dependencies   |
-| `README.md`       | You’re reading it                            |
-| `public_key.bin`  | Exported public key from the signature demo  |
+| File              | Description                                    |
+|-------------------|------------------------------------------------|
+| `cli_dilithium.py`| CLI tool for signing and verifying files       |
+| `Dockerfile`      | Builds the container with all dependencies     |
+| `README.md`       | You’re reading it                              |
+| `keys/`           | Folder that holds generated keypair            |
+| `message.txt`     | Input message to be signed                     |
+| `message.sig`     | Output signature from the input message        |
 
 ---
 
@@ -84,7 +118,5 @@ I was learning about post-quantum cryptography and wanted a real working example
 ## 🔗 License
 
 MIT License. Use, fork, or build on top of it.
-
----
 
 Built by **Surya** 🔐💻
