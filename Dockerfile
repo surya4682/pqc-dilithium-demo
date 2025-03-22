@@ -20,7 +20,8 @@ RUN git clone --branch main https://github.com/open-quantum-safe/liboqs-python.g
 WORKDIR /app
 
 # Copy your demo script
-COPY dilithium_demo.py .
+COPY cli_dilithium.py .
 
 # Run the script
-CMD ["python3", "dilithium_demo.py"]
+CMD ["python3", "cli_dilithium.py"]
+
