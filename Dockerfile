@@ -1,7 +1,9 @@
+# Use slim Python image
 FROM python:3.10-slim
 
-# Install dependencies
-RUN apt update && apt install -y git cmake gcc nano libssl-dev
+# Install system dependencies
+RUN apt update && apt install -y git cmake gcc nano libssl-dev python3-pip && \
+    pip install cryptography
 
 # Set runtime library path
 ENV LD_LIBRARY_PATH=/usr/local/lib
@@ -16,12 +18,11 @@ RUN git clone --branch main https://github.com/open-quantum-safe/liboqs-python.g
     cd /liboqs-python && \
     python3 -m pip install .
 
-# Set workdir
+# Set working directory
 WORKDIR /app
 
-# Copy your demo script
-COPY cli_dilithium.py .
+# Copy your hybrid CLI script
+COPY cli_hybrid.py .
 
-# Run the script
-CMD ["python3", "cli_dilithium.py"]
-
+# Default command (can override)
+CMD ["python3", "cli_hybrid.py"]
