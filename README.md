@@ -1,17 +1,17 @@
-# 🔐 PQC Dilithium CLI Tool
+# 🔐 Hybrid Dilithium + ECDSA CLI Tool
 
-A simple, working CLI demo of post-quantum digital signatures using [**Dilithium2**](https://csrc.nist.gov/projects/post-quantum-cryptography) from the [Open Quantum Safe](https://openquantumsafe.org) project. Built with Python and Docker.
+A working CLI demo of hybrid digital signatures using [**Dilithium2**](https://csrc.nist.gov/projects/post-quantum-cryptography) (post-quantum) from the [Open Quantum Safe](https://openquantumsafe.org) project and [**ECDSA**](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm) (classical) cryptography. Built with Python, [liboqs](https://github.com/open-quantum-safe/liboqs), and Docker.
 
 ---
 
 ## 🚀 What This Project Does
 
-- 🛡 Generates a quantum-safe Dilithium2 keypair  
-- ✍️ Signs any file using the private key  
-- ✅ Verifies a file using the public key  
-- ❌ Detects tampered files  
-- 💾 Exports public + private key to `./keys/`  
-- 🧰 CLI-based signing & verification — no extra UI
+- 🔐 Generates both Dilithium2 and ECDSA keypairs  
+- ✍️ Creates a hybrid signature with both algorithms  
+- ✅ Verifies each signature independently  
+- ❌ Detects tampered messages  
+- 📦 Saves signatures as base64-encoded strings  
+- 📂 Stores key files inside `./keys/` folder  
 
 ---
 
@@ -26,7 +26,7 @@ cd pqc-dilithium-demo
 
 ---
 
-## 🐳 How to Run (in 5 Steps)
+## 🐳 How to Run 
 
 1. **Build the Docker image**  
    ```bash
@@ -35,43 +35,49 @@ cd pqc-dilithium-demo
 
 2. **Create a message to sign**  
    ```bash
-   echo "Quantum is the future." > message.txt
+   echo "Quantum + Classical = Hybrid Secure" > message.txt
    ```
 
-3. **Sign the message**  
+3. **Key generation**  
    ```bash
-   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_dilithium.py sign --in message.txt --out message.sig
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_hybrid.py gen
    ```
 
-4. **Verify the message**  
+4. **Sign the file with a hybrid signature**  
    ```bash
-   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_hybrid.py sign --in message.txt --out hybrid.sig
    ```
 
-5. **(Optional) Tamper and test verification failure**  
+5. **Verify the hybrid signature**  
+   ```bash
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_hybrid.py verify --in message.txt --sig hybrid.sig --dilithium-pub keys/public_dilithium.bin --ecdsa-pub keys/public_ecdsa.pem
+   ```
+
+6. **(Optional) Tamper and test verification failure**  
    ```bash
    echo "I changed the message" > message.txt
    ```
    ```bash
-   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_dilithium.py verify --in message.txt --sig message.sig --pub keys/public_key.bin
+   sudo docker run --rm -v "$PWD":/app pqc-dilithium-demo python3 cli_hybrid.py verify --in message.txt --sig hybrid.sig --dilithium-pub keys/public_dilithium.bin --ecdsa-pub keys/public_ecdsa.pem
    ```
-
-> ℹ️ On **Windows with WSL**, make sure **Docker Desktop** is running.
-
 ---
 
 ## 💡 Expected Output
 
 ```
-🔐 Keypair generated
-✍️ Message signed: message.sig
-✅ Signature valid?
+🔐 Keypair generated in keys
+✍ Hybrid signature written to hybrid.sig
+✅ Dilithium signature: valid
+✅ ECDSA signature: valid
+
 ```
 
 If the message is tampered:
 
 ```
-❌ Invalid signature
+❌ Dilithium signature: invalid
+❌ ECDSA signature: invalid
+
 ```
 
 ---
@@ -80,7 +86,8 @@ If the message is tampered:
 
 - Python 3.10 (inside Docker)  
 - [liboqs](https://github.com/open-quantum-safe/liboqs)  
-- [liboqs-python](https://github.com/open-quantum-safe/liboqs-python)  
+- [liboqs-python](https://github.com/open-quantum-safe/liboqs-python)
+- [Python Cryptography (for ECDSA)](https://cryptography.io/en/latest/)
 - Docker
 
 ---
@@ -89,18 +96,18 @@ If the message is tampered:
 
 | File              | Description                                    |
 |-------------------|------------------------------------------------|
-| `cli_dilithium.py`| CLI tool for signing and verifying files       |
+| `cli_hybrid.py`   | CLI tool for hybrid signing and verification   |
 | `Dockerfile`      | Builds the container with all dependencies     |
 | `README.md`       | You’re reading it                              |
-| `keys/`           | Folder that holds generated keypair            |
+| `keys/`           | Folder that holds generated keypair files      |
 | `message.txt`     | Input message to be signed                     |
-| `message.sig`     | Output signature from the input message        |
+| `hybrid.sig	`    | Output signature combining Dilithium + ECDSA   |
 
 ---
 
 ## 🧠 Why I Made This
 
-I was learning about post-quantum cryptography and wanted a real working example — but found the setup hard, buggy, and confusing. So I made this:
+Hybrid signatures are essential during the transition to post-quantum cryptography. This tool shows how you can combine PQC and classical crypto into one simple, verifiable signature — easy to run, test, and learn.
 
 - 🔧 Clean  
 - 💡 Easy to understand  
@@ -113,6 +120,7 @@ I was learning about post-quantum cryptography and wanted a real working example
 - Open Quantum Safe  
 - liboqs  
 - liboqs-python
+- Python Cryptography
 
 ---
 
